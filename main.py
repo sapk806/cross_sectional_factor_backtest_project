@@ -11,8 +11,8 @@ def main():
     end_date = CONFIG['end_date']
 
     close_prices, rebalance_trading_dates = gather_data(universe = universe, start_date = start_date, end_date = end_date)
-    rebalance_date_close_prices, factor = find_factor(close_prices = close_prices, rebalance_trading_dates = rebalance_trading_dates)
-    portfolio_returns = strategy(factor = factor, rebalance_date_close_prices = rebalance_date_close_prices)
+    rebalance_date_close_prices, twelve_month_returns = find_factor(close_prices = close_prices, rebalance_trading_dates = rebalance_trading_dates)
+    portfolio_returns = strategy(twelve_month_returns =  twelve_month_returns, rebalance_date_close_prices = rebalance_date_close_prices)
     cumreturn, t_value, sharpe_ratio, max_drawdown, maximums, t_value_significance, cumreturns = analysis(portfolio_values = portfolio_returns)
     plotter(cumulative_returns = cumreturns, maximums = maximums)
 

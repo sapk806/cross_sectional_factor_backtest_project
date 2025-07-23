@@ -15,7 +15,7 @@ def find_factor(close_prices, rebalance_trading_dates):
     rebalance_date_close_prices = close_prices.loc[rebalance_trading_dates[1:]]
     shifted_close_prices = rebalance_date_close_prices.shift(1)
     
-    factor = shifted_close_prices.pct_change(periods = 12).dropna()
+    twelve_month_returns = shifted_close_prices.pct_change(periods = 12).dropna()
 
-    factor.to_csv('results/12_month_returns.csv')
-    return rebalance_date_close_prices, factor
+    twelve_month_returns.to_csv('results/12_month_returns.csv')
+    return rebalance_date_close_prices, twelve_month_returns

@@ -1,4 +1,4 @@
-def strategy(factor, rebalance_date_close_prices):
+def strategy(twelve_month_returns, rebalance_date_close_prices):
     """
     Ranks each asset by factor to decide which assets to long and short until the next rebalance date.
 
@@ -15,12 +15,12 @@ def strategy(factor, rebalance_date_close_prices):
     rebalance_returns = rebalance_date_close_prices.pct_change().dropna()
 
     portfolio_returns = {}
-    for rebalance in factor.index[1:]:
+    for rebalance in twelve_month_returns.index[1:]:
 
         n_long_short = int(.2 * int(len(rebalance_date_close_prices.columns)))
         
 
-        sorted_factors = factor.loc[rebalance].sort_values()
+        sorted_factors = twelve_month_returns.loc[rebalance].sort_values()
         
         top20p = sorted_factors.index[-n_long_short:]
         bottom20p = sorted_factors.index[:n_long_short]
