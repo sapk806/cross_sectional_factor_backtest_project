@@ -1,16 +1,23 @@
-def strategy(twelve_month_returns, rebalance_date_close_prices):
-    """
-    Ranks each asset by factor to decide which assets to long and short until the next rebalance date.
+import pandas as pd
+import numpy as np
 
-    Parameters:
-        factor (pd.DataFrame): A DataFrame containing the percent change of the shifted DataFrame containing the adjusted close prices, removing future bias and finding the return of each asset between rebalance dates.
-        rebalance_date_close_prices (pd.DataFrame): A DataFrame containing the adjusted close prices of each asset at each rebalance date in the rebalance tradiong dates list.
+def strategy(twelve_month_returns: pd.DataFrame, rebalance_date_close_prices: pd.DataFrame):
+    """
+    Executes a long-short momentum strategy by ranking each asset based on their 12-month returns
+    and rebalancing at monthly intervals.
+    
+    At each rebalance date the top 20% of assets based on prior 12-month returns are put in a long position,
+    and the bottom 20% of assets based on prior 12-month returns are put in a short position.
+
+    Saves results to 'results/portfolio_returns.csv'
+    
+    Args:
+        factor (pd.DataFrame): DataFrame containing the percent change of the shifted DataFrame containing the adjusted close prices, removing future bias and finding the return of each asset between rebalance dates.
+        rebalance_date_close_prices (pd.DataFrame): DataFrame containing the adjusted close prices of each asset at each rebalance date in the rebalance trading dates list.
     
     Returns:
-        pd.Series: A series containing the returns of the portfolio based on the strategy, indexed by rebalance date.
+        pd.Series: Series containing the returns of the portfolio based on the strategy, indexed by rebalance date.
     """
-    import pandas as pd
-    import numpy as np
 
     rebalance_returns = rebalance_date_close_prices.pct_change().dropna()
 

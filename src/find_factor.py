@@ -1,16 +1,18 @@
-def find_factor(close_prices, rebalance_trading_dates):
-    """
-    Calculates the 12-month returns at each rebalance date to use as the trading factor.
+import pandas as pd 
 
-    Parameters:
-        close_prices (pd.DataFrame): A DataFrame containing the adjusted close prices of each asset at every date between the start and end date. Indexed by date with assets as columns.
-        rebalance_trading_dates (list): A list containing the first of every month between the start and end date. If the first of the month is not available the closest date before the first was chosen.
+def find_factor(close_prices: pd.DataFrame, rebalance_trading_dates: list[pd.Timestamp]):
+    """
+    Calculates the 12-month returns at each rebalance date to use as the factor for ranking.
+    Saves 12-month returns to 'results/12_month_returns.csv'
+    
+    Args:
+        close_prices (pd.DataFrame): DataFrame containing the adjusted close prices of each asset at every date between the start and end date. Indexed by date with assets as columns.
+        rebalance_trading_dates (list[pd.Timestamp]): List of rebalance dates.
     
     Returns:
-        pd.DataFrame: A DataFrame containing the adjusted close prices of each asset at each rebalance date in the rebalance tradiong dates list.
-        pd.DataFrame: A DataFrame containing the percent change of the shifted DataFrame containing the adjusted close prices, removing future bias and finding the return of each asset between rebalance dates. 
+        pd.DataFrame: DataFrame containing the adjusted close prices of each asset at each rebalance date in the rebalance tradiong dates list.
+        pd.DataFrame: DataFrame containing the percent change of the shifted DataFrame containing the adjusted close prices, removing future bias and finding the return of each asset between rebalance dates. 
     """
-    import pandas as pd 
 
     rebalance_date_close_prices = close_prices.loc[rebalance_trading_dates[1:]]
     shifted_close_prices = rebalance_date_close_prices.shift(1)

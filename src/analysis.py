@@ -1,28 +1,29 @@
-def analysis(portfolio_values):
+import pandas as pd
+import numpy as np
+
+def analysis(portfolio_values: pd.Series):
     """
     Calculates performance metrics to determine strategy's efficiency.
 
     Performance Metrics Include:
-        Cumulative Returns
-        Sharpe Ratio
-        t-value
-        Max Drawdown
+        - Cumulative Returns
+        - Sharpe Ratio
+        - t-value
+        - Max Drawdown
 
-    Parameters:
-        portfolio_values (pd.Series): A series containing the returns of the portfolio based on the strategy, indexed by rebalance date.
+    Args:
+        portfolio_values (pd.Series): Series containing the returns of the portfolio based on the strategy, indexed by rebalance date.
     
     Returns:
-        float: The final cumulative return of the portfolio. Taken from the cumulative returns series.
-        float: The t-value of the portfolio. Calculated using Sharpe ratio and the number of months.
-        float: The Sharpe Ratio of the portfolio. Calculated using annualized average of the returns and annualized std of the returns.
-        float: The max drawdown of the portfolio, taken from the minimum of the drawdowns list.
-        pd.Series: A series containing the maximums of the portfolio, indexed by rebalance date.
-        str: An interpretation of the t-value and its significane.
-        pd.Series: A series containing the cumulative returns of the portfolio, indexed by rebalance date.
+        float: Final cumulative return of the portfolio. Taken from the cumulative return series.
+        float: t-value of the Sharpe ratio. Calculated using Sharpe ratio and the number of months.
+        float: Sharpe Ratio of the portfolio. Calculated using annualized average of the returns and annualized std of the returns.
+        float: Max drawdown of the portfolio, taken from the minimum of the drawdowns list.
+        pd.Series: Series containing the rolling maximum values of cumulative return, indexed by rebalance date.
+        str: Interpretation of the t-value and its significance.
+        pd.Series: Series containing the cumulative returns of the portfolio, indexed by rebalance date.
 
     """
-    import pandas as pd
-    import numpy as np
 
     cumreturns = (1 + portfolio_values).cumprod()
     cumreturn = cumreturns.iloc[-1] - 1

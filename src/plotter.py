@@ -1,12 +1,17 @@
-def plotter(cumulative_returns, maximums):
+import matplotlib.pyplot as plt
+import pandas as pd
+
+def plotter(cumulative_returns: pd.Series, maximums: pd.Series):
     """
     Plots the cumulative returns of the portfolio with drawdown.
 
-    Parameters:
-        cumulative_returns (pd.Series): A series containing the cumulative returns of the portfolio, indexed by rebalance date.
-        maximums (pd.Series): A series containing the maximums of the portfolio, indexed by rebalance date.
+    Args:
+        cumulative_returns (pd.Series): Series containing the cumulative returns of the portfolio, indexed by rebalance date.
+        maximums (pd.Series): Series containing the rolling maximum values of the cumulative returns, indexed by rebalance date.
+
+    Returns:
+        None
     """
-    import matplotlib.pyplot as plt
 
     plt.figure(figsize = (12, 6))
     plt.plot(cumulative_returns.index, cumulative_returns, label = 'Portfolio Values')

@@ -1,18 +1,20 @@
-def gather_data(universe, start_date, end_date):
-    """
-    Gathers the adjusted close prices of all assets and gets the closest date before the first of every month within the time span.
+import yfinance as yf
+import pandas as pd
 
-    Parameters:
-        universe (list of str): A list of all the assets used.
-        start_date (str): First date used in the close prices DataFrame in the format (YYYY-MM-DD). 
-        end_date (str): Last date used in the close prices DataFrame in the format (YYYY-MM-DD).
+def gather_data(universe: list[str], start_date: str, end_date: str):
+    """
+    Downloads the adjusted close prices of a group of Yahoo Finance tickers and finds the closest date before the first of every month.
+    Saves close prices to 'results/close_prices.csv'
+    
+    Args:
+        universe (list[str]): List of Yahoo Finance tickers to download data for.
+        start_date (str): Start date in 'YYYY-MM-DD' format. 
+        end_date (str): End date 'YYYY-MM-DD' format.
 
     Returns:
-    pd.DataFrame: A DataFrame containing the adjusted close prices of all the assets between the start and end date. Indexed by date with assets as columns.
-    list: A list containing either the first of every month between the start and end date, or the closest date before the first of the month. Used as the rebalane dates.
+    pd.DataFrame: DataFrame containing the adjusted close prices of all the assets between the start and end date. Indexed by date with assets as columns.
+    list[pd.Timestamp]: List containing either the first of every month between the start and end date, or the closest date before the first of the month. Used as the rebalane dates.
     """
-    import yfinance as yf
-    import pandas as pd
 
     close_prices = yf.download(universe, start = start_date, end = end_date)['Close'].dropna()
 
